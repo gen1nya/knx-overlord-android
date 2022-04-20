@@ -1,0 +1,55 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion rootProject.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'consumer-proguard-rules.txt'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+        test.java.srcDirs += 'src/test/kotlin'
+    }
+}
+
+dependencies {
+
+    // For default implementations
+    compileOnly rootProject.appCompat
+    compileOnly rootProject.materialDesign
+
+    // Rx
+    api rootProject.rxJava3
+    implementation rootProject.annotation
+    implementation rootProject.rxRelay3
+    implementation rootProject.rxAndroid3
+    implementation rootProject.rxBinding
+
+    // For tests
+    testImplementation rootProject.junitKotlin
+    testImplementation rootProject.mockitoKotlin
+    testImplementation rootProject.appCompat
+}
+
+ext {
+    PUBLISH_GROUP_ID = 'me.dmdev.rxpm'
+    PUBLISH_VERSION = '2.1.2'
+    PUBLISH_ARTIFACT_ID = 'rxpm'
+}
+
+apply from: "publish-mavencentral.gradle"
